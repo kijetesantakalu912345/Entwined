@@ -5,6 +5,7 @@ using HarmonyLib;
 using Steamworks;
 using Steamworks.Data;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -165,6 +166,38 @@ namespace Entwined
             foreach (var player in SteamManager.instance.connectedPlayers)
             {
                 player.Connection.SendMessage(msg);
+            }
+        }
+
+        /// <summary>
+        /// Broadcasts a message to one specific player
+        /// </summary>
+        /// <param name="identifier">The PacketIdentifier</param>
+        /// <param name="payload">The payload</param>
+        /// <param name="player">The player's steamworks <c>Connection</c> instance</param>
+        internal static void SendMessageTo(PacketIdentifier identifier, byte[] payload, Connection player)
+        {
+            var msg = new byte[signature.Length + PacketIdentifier.EncodedSize + payload.Length];
+            signature.CopyTo(msg, 0);
+            identifier.Encode().CopyTo(msg, signature.Length);
+            payload.CopyTo(msg, signature.Length + PacketIdentifier.EncodedSize);
+            player.SendMessage(msg);
+        }
+        /// <summary>
+        /// Broadcasts a message to a list of specific players
+        /// </summary>
+        /// <param name="identifier">The PacketIdentifier</param>
+        /// <param name="payload">The payload</param>
+        /// <param name="player">The players' steamworks <c>Connection</c> instances</param>
+        internal static void SendMessageTo(PacketIdentifier identifier, byte[] payload, List<Connection> players)
+        {
+            var msg = new byte[signature.Length + PacketIdentifier.EncodedSize + payload.Length];
+            signature.CopyTo(msg, 0);
+            identifier.Encode().CopyTo(msg, signature.Length);
+            payload.CopyTo(msg, signature.Length + PacketIdentifier.EncodedSize);
+            foreach (var player in players)
+            {
+                player.SendMessage(msg);
             }
         }
 

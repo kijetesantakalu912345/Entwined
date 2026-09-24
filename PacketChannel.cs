@@ -1,4 +1,6 @@
-﻿using BepInEx;
+﻿using System.Collections.Generic;
+using BepInEx;
+using Steamworks.Data;
 
 namespace Entwined
 {
@@ -56,6 +58,28 @@ namespace Entwined
         public void SendMessage(byte[] payload)
         {
             Entwined.SendMessage(packetIdentifier, payload);
+        }
+        /// <summary>
+        /// Send data to a specific client.
+        /// Only use this if you know what you're doing, bopl's netcode requires the entire game state to be synced to every player.
+        /// If you send game-state altering information to some clients but not others, the game will desync and the round will end differently for each player.
+        /// </summary>
+        /// <param name="payload">The data to send</param>
+        /// <param name="player">The player's steamworks <c>Connection</c> instance</param>
+        public void SendMessageTo(byte[] payload, Connection player)
+        {
+            Entwined.SendMessageTo(packetIdentifier, payload, player);
+        }
+        /// <summary>
+        /// Send data to a list of specific clients.
+        /// Only use this if you know what you're doing, bopl's netcode requires the entire game state to be synced to every player.
+        /// If you send game-state altering information to some clients but not others, the game will desync and the round will end differently for each player.
+        /// </summary>
+        /// <param name="payload">The data to send</param>
+        /// <param name="players">The players' steamworks <c>Connection</c> instances</param>
+        public void SendMessageTo(byte[] payload, List<Connection> players)
+        {
+            Entwined.SendMessageTo(packetIdentifier, payload, players);
         }
     }
 
