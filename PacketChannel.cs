@@ -138,5 +138,27 @@ namespace Entwined
         {
             PacketChannel.SendMessage(Entwiner.Entwine(payload));
         }
+        /// <summary>
+        /// Send data to a specific client.
+        /// Only use this if you know what you're doing, bopl's netcode requires the entire game state to be synced to every player.
+        /// If you send game-state altering information to some clients but not others, the game will desync and the round will end differently for each player.
+        /// </summary>
+        /// <param name="payload">The data to send</param>
+        /// <param name="player">The player's steamworks <c>Connection</c> instance</param>
+        public void SendMessageTo(T payload, Connection player)
+        {
+            PacketChannel.SendMessageTo(Entwiner.Entwine(payload), player);
+        }
+        /// <summary>
+        /// Send data to a list of specific clients.
+        /// Only use this if you know what you're doing, bopl's netcode requires the entire game state to be synced to every player.
+        /// If you send game-state altering information to some clients but not others, the game will desync and the round will end differently for each player.
+        /// </summary>
+        /// <param name="payload">The data to send</param>
+        /// <param name="players">The players' steamworks <c>Connection</c> instances</param>
+        public void SendMessageTo(T payload, List<Connection> players)
+        {
+            PacketChannel.SendMessageTo(Entwiner.Entwine(payload), players);
+        }
     }
 }
