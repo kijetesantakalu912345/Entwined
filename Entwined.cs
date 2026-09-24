@@ -18,8 +18,8 @@ namespace Entwined
     /// The main plugin class. Contains the barebones static methods 
     /// required for a packet system.
     /// </summary>
-    [BepInPlugin("com.entwinedteam.entwined", "Entwined", "1.0.0")]
-    [BepInProcess("BoplBattle.exe")]
+    [BepInPlugin("com.entwinedteam.entwined", "Entwined", "1.1.0")]
+    
     public class Entwined : BaseUnityPlugin
     {
         internal static Harmony harmony;
